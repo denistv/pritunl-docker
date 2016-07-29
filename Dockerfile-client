@@ -1,0 +1,6 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y openvpn
+
+COPY dist/client.ovpn /cfg/client.ovpn
+CMD openvpn --config /cfg/client.ovpn

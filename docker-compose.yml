@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+    pritunl:
+        build:
+            context: .
+            dockerfile: Dockerfile-pritunl
+        ports:
+            - "443:443"
+            - "11659:11659/udp"
+        links:
+            - mongodb
+        cap_add:
+            - ALL
+        privileged: true
+
+    mongodb:
+        image: mongo:latest
+
+    client:
+        build:
+            context: .
+            dockerfile: Dockerfile-client
+        links:
+            - pritunl
+        cap_add:
+            - ALL
+        privileged: true

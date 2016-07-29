@@ -1,0 +1,13 @@
+FROM ubuntu:14.04
+
+RUN echo "deb http://repo.pritunl.com/stable/apt trusty main" > /etc/apt/sources.list.d/pritunl.list && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv EA312927 && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv CF8E292A && \
+    apt-get --assume-yes update && \
+    apt-get --assume-yes upgrade && \
+    apt-get --assume-yes install pritunl iptables
+
+COPY dist/pritunl.conf /etc/pritunl.conf
+COPY dist/entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["bash", "/entrypoint.sh"]
